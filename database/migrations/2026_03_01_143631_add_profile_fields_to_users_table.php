@@ -6,16 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-
-            $table->string('first_name')->after('id');
-            $table->string('last_name')->after('first_name');
-            $table->string('student_id')->unique()->after('last_name');
-
-        });
-    }
+    public function up()
+{
+    Schema::table('users', function (Blueprint $table) {
+        if (!Schema::hasColumn('users', 'first_name')) {
+            $table->string('first_name');
+        }
+        if (!Schema::hasColumn('users', 'last_name')) {
+            $table->string('last_name');
+        }
+        if (!Schema::hasColumn('users', 'student_id')) {
+            $table->string('student_id');
+        }
+    });
+}
 
     public function down(): void
     {
